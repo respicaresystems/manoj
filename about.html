@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About Us - Respicaresystems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
+ 
+</head>
+
+<body>
+
+<header class="main-header">
+
+  <div class="logo">
+    <img src="assets/images/Respi Logo.jpeg" alt="Thaila Sannidhi Logo">
+    <span>Respicaresystems</span>
+  </div>
+
+  <div class="menu-toggle" id="menuToggle">
+    ☰
+  </div>
+
+  <nav id="navMenu" class="nav-links">
+    <a href="./index.html">Dashboard</a>
+    <a href="./price-list.html">Price List</a>
+    <a href="./about.html">About Us</a>
+    <a href="./contact.html">Contact Us</a>
+  </nav>
+
+</header>
+
+<section class="content">
+  <h1>About Us</h1>
+
+  <div class="about-text">
+    <p>
+      <strong>RESPICARE SYSTEMS</strong> is dedicated to providing high-quality rental medical equipment,
+      <strong>including respiratory aids and mobility solutions, to meet the needs of patients and caregivers. We focus on accessibility, affordability, and reliability to ensure exceptional service.</strong>
+    </p>
+
+
+    <p>
+      <strong>With a commitment to innovation and customer care, we empower individuals on their journey to better health, making us a trusted choice for medical equipment rentals.& Sales</strong>
+    
+    
+  </p>
+    
+  </div>
+</section>
+
+<footer>
+  <p>Respicaresystems@Yeshwanthpur | Designed By Umesh KB</p>
+</footer>
+
+
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
+
+document.querySelectorAll("#navMenu a").forEach(link => {
+  link.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+  });
+});
+</script>
+
+
+
+
+</body>
+</html>
