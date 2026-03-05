@@ -1,96 +1,92 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   const slides = document.querySelectorAll(".slide");
-  const nextBtn = document.querySelector(".next");
   const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
   const dotsContainer = document.querySelector(".dots");
 
-  let slideIndex = 0;
-  let autoTimeout;
+  let currentIndex = 0;
+  const intervalTime = 5000; // 🔥 60 seconds
+  let slideInterval;
 
-  const slideTimes = [
-    1000, // 5 minutes
-    5000,  // 60 seconds
-    10000  // 60 seconds
-  ];
-
+  // =========================
+  // CREATE DOTS
+  // =========================
   slides.forEach((_, index) => {
     const dot = document.createElement("span");
     dot.addEventListener("click", () => {
-      showSlide(index);
-      restartAuto();
+      goToSlide(index);
+      resetInterval();
     });
     dotsContainer.appendChild(dot);
   });
 
   const dots = document.querySelectorAll(".dots span");
 
+  // =========================
+  // SHOW SLIDE
+  // =========================
   function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    dots.forEach(dot => dot.classList.remove("active-dot"));
 
-    if (index >= slides.length) index = 0;
-    if (index < 0) index = slides.length - 1;
-
-    slides.forEach(s => s.classList.remove("active"));
-    dots.forEach(d => d.classList.remove("active-dot"));
-
-    slideIndex = index;
-
-    slides[slideIndex].classList.add("active");
-    dots[slideIndex].classList.add("active-dot");
+    slides[index].classList.add("active");
+    dots[index].classList.add("active-dot");
   }
 
+  // =========================
+  // NEXT SLIDE
+  // =========================
   function nextSlide() {
-    showSlide(slideIndex + 1);
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
   }
 
+  // =========================
+  // PREVIOUS SLIDE
+  // =========================
   function prevSlide() {
-    showSlide(slideIndex - 1);
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
   }
 
-  function startAuto() {
-    clearTimeout(autoTimeout);
-    autoTimeout = setTimeout(() => {
-      nextSlide();
-      startAuto();
-    }, slideTimes[slideIndex]);
+  // =========================
+  // GO TO SPECIFIC SLIDE
+  // =========================
+  function goToSlide(index) {
+    currentIndex = index;
+    showSlide(currentIndex);
   }
 
-  function restartAuto() {
-    startAuto();
+  // =========================
+  // AUTO PLAY
+  // =========================
+  function startAutoSlide() {
+    slideInterval = setInterval(nextSlide, intervalTime);
   }
 
+  function resetInterval() {
+    clearInterval(slideInterval);
+    startAutoSlide();
+  }
+
+  // =========================
+  // EVENT LISTENERS
+  // =========================
   nextBtn.addEventListener("click", () => {
     nextSlide();
-    restartAuto();
+    resetInterval();
   });
 
   prevBtn.addEventListener("click", () => {
     prevSlide();
-    restartAuto();
+    resetInterval();
   });
 
-  showSlide(0);
-  startAuto();
+  // =========================
+  // INIT
+  // =========================
+  showSlide(currentIndex);
+  startAutoSlide();
 
 });
-
-
-const carousel = document.querySelector(".carousel");
-
-let startX = 0;
-
-carousel.addEventListener("touchstart", function (e) {
-  startX = e.touches[0].clientX;
-}, { passive: true });
-
-carousel.addEventListener("touchmove", function (e) {
-  let currentX = e.touches[0].clientX;
-  let diff = currentX - startX;
-
-  if (Math.abs(diff) > 50) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-
-
