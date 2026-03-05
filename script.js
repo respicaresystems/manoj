@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const dotsContainer = document.querySelector(".dots");
 
   let currentIndex = 0;
-  const intervalTime = 5000; // 🔥 60 seconds
-  let slideInterval;
+  const intervalTime = 5000; // 60 seconds
+  let slideInterval = null;
 
   // =========================
   // CREATE DOTS
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dot = document.createElement("span");
     dot.addEventListener("click", () => {
       goToSlide(index);
-      resetInterval();
+      restartAutoSlide();
     });
     dotsContainer.appendChild(dot);
   });
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =========================
-  // NEXT SLIDE
+  // NEXT
   // =========================
   function nextSlide() {
     currentIndex = (currentIndex + 1) % slides.length;
@@ -43,44 +43,42 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =========================
-  // PREVIOUS SLIDE
+  // PREVIOUS
   // =========================
   function prevSlide() {
     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     showSlide(currentIndex);
   }
 
-  // =========================
-  // GO TO SPECIFIC SLIDE
-  // =========================
   function goToSlide(index) {
     currentIndex = index;
     showSlide(currentIndex);
   }
 
   // =========================
-  // AUTO PLAY
+  // AUTO SLIDE CONTROL
   // =========================
   function startAutoSlide() {
+    if (slideInterval) clearInterval(slideInterval); // prevent duplicates
     slideInterval = setInterval(nextSlide, intervalTime);
   }
 
-  function resetInterval() {
+  function restartAutoSlide() {
     clearInterval(slideInterval);
     startAutoSlide();
   }
 
   // =========================
-  // EVENT LISTENERS
+  // EVENTS
   // =========================
   nextBtn.addEventListener("click", () => {
     nextSlide();
-    resetInterval();
+    restartAutoSlide();
   });
 
   prevBtn.addEventListener("click", () => {
     prevSlide();
-    resetInterval();
+    restartAutoSlide();
   });
 
   // =========================
